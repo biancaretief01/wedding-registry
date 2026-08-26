@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="robots"
+    content="noindex,nofollow"
+  >
+
+  <title>
+    Registry Admin | Bianca & Ruben
+  </title>
+
+
+  <!-- =========================================================
+       FONTS
+  ========================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =========================================================
+       ADMIN STYLES
+  ========================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="admin.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <main>
+
+
+    <!-- =========================================================
+         LOGIN
+    ========================================================== -->
+
+    <section
+      class="login-screen"
+      id="loginScreen"
+    >
+
+      <div class="login-card">
+
+        <p class="eyebrow">
+          BIANCA & RUBEN
+        </p>
+
+        <h1>
+          Registry Admin
+        </h1>
+
+        <p class="muted">
+          Private management area
+        </p>
+
+
+        <form
+          id="loginForm"
+          class="stack"
+        >
+
+          <label>
+
+            Email
+
+            <input
+              type="email"
+              name="email"
+              autocomplete="email"
+              required
+            >
+
+          </label>
+
+
+          <label>
+
+            Password
+
+            <input
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+            >
+
+          </label>
+
+
+          <button
+            class="btn primary"
+            type="submit"
+          >
+            Sign in
+          </button>
+
+
+          <p
+            class="form-status"
+            id="loginStatus"
+            role="status"
+          ></p>
+
+        </form>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         ADMIN SHELL
+    ========================================================== -->
+
+    <section
+      class="admin-shell"
+      id="adminShell"
+      hidden
+    >
+
+
+      <!-- =======================================================
+           HEADER
+      ======================================================== -->
+
+      <header class="admin-header">
+
+        <div>
+
+          <p class="eyebrow">
+            BIANCA & RUBEN
+          </p>
+
+          <h1>
+            Registry Admin
+          </h1>
+
+          <p class="admin-header-copy">
+            Manage your wedding registry, guest gifts and recipe collection.
+          </p>
+
+        </div>
+
+
+        <div class="header-actions">
+
+          <a
+            class="btn ghost"
+            href="index.html"
+            target="_blank"
+            rel="noopener"
+          >
+            View guest registry
+          </a>
+
+
+          <button
+            class="btn ghost"
+            id="logoutButton"
+            type="button"
+          >
+            Sign out
+          </button>
+
+        </div>
+
+      </header>
+
+
+
+      <!-- =======================================================
+           ADMIN NAVIGATION
+      ======================================================== -->
+
+      <nav
+        class="tabs admin-main-tabs"
+        aria-label="Admin sections"
+      >
+
+        <button
+          class="tab active"
+          data-tab="overview"
+          type="button"
+        >
+          Overview
+        </button>
+
+
+        <button
+          class="tab"
+          data-tab="gifts"
+          type="button"
+        >
+          Gifts
+        </button>
+
+
+        <button
+          class="tab"
+          data-tab="reservations"
+          type="button"
+        >
+          Reservations
+        </button>
+
+
+        <button
+          class="tab"
+          data-tab="other-gifts"
+          type="button"
+        >
+          Outside Gifts
+        </button>
+
+
+        <button
+          class="tab"
+          data-tab="recipes"
+          type="button"
+        >
+          Recipes
+        </button>
+
+      </nav>
+
+
+
+      <!-- =======================================================
+           OVERVIEW
+      ======================================================== -->
+
+      <section
+        id="overviewPanel"
+        class="panel admin-overview-panel"
+        data-admin-panel="overview"
+      >
+
+
+        <div class="panel-heading">
+
+          <div>
+
+            <p class="eyebrow">
+              AT A GLANCE
+            </p>
+
+            <h2>
+              Registry overview
+            </h2>
+
+            <p class="panel-intro">
+              A snapshot of your registry and recent guest activity.
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             MAIN STATS
+        ====================================================== -->
+
+        <section
+          class="stats-grid"
+          aria-label="Registry overview"
+        >
+
+          <article>
+
+            <span>
+              Total gifts
+            </span>
+
+            <strong id="statTotal">
+              —
+            </strong>
+
+          </article>
+
+
+          <article>
+
+            <span>
+              Available units
+            </span>
+
+            <strong id="statAvailable">
+              —
+            </strong>
+
+          </article>
+
+
+          <article>
+
+            <span>
+              Reserved units
+            </span>
+
+            <strong id="statReserved">
+              —
+            </strong>
+
+          </article>
+
+
+          <article>
+
+            <span>
+              Gifted units
+            </span>
+
+            <strong id="statGifted">
+              —
+            </strong>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             GUEST ACTIVITY STATS
+        ====================================================== -->
+
+        <section class="secondary-stats-grid">
+
+          <article>
+
+            <p class="eyebrow">
+              OUTSIDE GIFTS
+            </p>
+
+            <strong id="statPendingOtherGifts">
+              —
+            </strong>
+
+            <span>
+              Awaiting review
+            </span>
+
+          </article>
+
+
+          <article>
+
+            <p class="eyebrow">
+              APPROVED
+            </p>
+
+            <strong id="statApprovedOtherGifts">
+              —
+            </strong>
+
+            <span>
+              Outside gifts
+            </span>
+
+          </article>
+
+
+          <article>
+
+            <p class="eyebrow">
+              RECIPES
+            </p>
+
+            <strong id="statNewRecipes">
+              —
+            </strong>
+
+            <span>
+              New submissions
+            </span>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             RECENT ACTIVITY
+        ====================================================== -->
+
+        <section class="overview-activity">
+
+          <div class="panel-heading compact">
+
+            <div>
+
+              <p class="eyebrow">
+                RECENT
+              </p>
+
+              <h2>
+                Guest activity
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="recentActivityList"
+            class="recent-activity-list"
+          >
+
+            <div class="empty">
+              Recent activity will appear here.
+            </div>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+
+      <!-- =======================================================
+           GIFTS PANEL
+      ======================================================== -->
+
+      <section
+        id="giftsPanel"
+        class="panel"
+        data-admin-panel="gifts"
+        hidden
+      >
+
+
+        <div class="panel-heading">
+
+          <div>
+
+            <p class="eyebrow">
+              THE COLLECTION
+            </p>
+
+            <h2>
+              Manage gifts
+            </h2>
+
+            <p class="panel-intro">
+              Add specific picks, gift ideas and manage what guests can see.
+            </p>
+
+          </div>
+
+
+          <button
+            class="btn primary"
+            id="addGiftButton"
+            type="button"
+          >
+            + Add gift
+          </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             GIFT FILTERS
+        ====================================================== -->
+
+        <div class="admin-toolbar">
+
+          <input
+            id="giftSearch"
+            type="search"
+            placeholder="Search gifts, brands or categories…"
+          >
+
+
+          <select id="giftFilter">
+
+            <option value="all">
+              All gifts
+            </option>
+
+            <option value="visible">
+              Visible
+            </option>
+
+            <option value="hidden">
+              Hidden
+            </option>
+
+            <option value="available">
+              Available
+            </option>
+
+            <option value="claimed">
+              Fully claimed
+            </option>
+
+            <option value="specific">
+              Specific picks
+            </option>
+
+            <option value="open-choice">
+              Gift ideas
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <div
+          id="giftList"
+          class="gift-list"
+        ></div>
+
+      </section>
+
+
+
+      <!-- =======================================================
+           RESERVATIONS PANEL
+      ======================================================== -->
+
+      <section
+        id="reservationsPanel"
+        class="panel"
+        data-admin-panel="reservations"
+        hidden
+      >
+
+
+        <div class="panel-heading">
+
+          <div>
+
+            <p class="eyebrow">
+              PRIVATE
+            </p>
+
+            <h2>
+              Reservations
+            </h2>
+
+            <p class="panel-intro">
+              Review registry gifts that guests have reserved or purchased.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <p class="privacy-note">
+          Guest names and contact details are visible only in this authenticated admin area.
+        </p>
+
+
+        <div class="admin-toolbar reservation-toolbar">
+
+          <input
+            id="reservationSearch"
+            type="search"
+            placeholder="Search guest or gift…"
+          >
+
+
+          <select id="reservationFilter">
+
+            <option value="all">
+              All reservations
+            </option>
+
+            <option value="reserved">
+              Reserved
+            </option>
+
+            <option value="purchased">
+              Gifted
+            </option>
+
+            <option value="released">
+              Released
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div
+          id="reservationList"
+          class="reservation-list"
+        ></div>
+
+      </section>
+
+
+
+      <!-- =======================================================
+           OUTSIDE GIFTS PANEL
+      ======================================================== -->
+
+      <section
+        id="otherGiftsPanel"
+        class="panel"
+        data-admin-panel="other-gifts"
+        hidden
+      >
+
+
+        <div class="panel-heading">
+
+          <div>
+
+            <p class="eyebrow">
+              CHOSEN ELSEWHERE
+            </p>
+
+            <h2>
+              Outside gifts
+            </h2>
+
+            <p class="panel-intro">
+              Review gifts guests have purchased outside the registry before they appear publicly.
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="admin-toolbar">
+
+          <input
+            id="otherGiftSearch"
+            type="search"
+            placeholder="Search guest, gift or store…"
+          >
+
+
+          <select id="otherGiftFilter">
+
+            <option value="all">
+              All submissions
+            </option>
+
+            <option value="pending">
+              Pending review
+            </option>
+
+            <option value="approved">
+              Approved
+            </option>
+
+            <option value="rejected">
+              Rejected
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <div
+          id="otherGiftList"
+          class="other-gift-list"
+        >
+
+          <div class="empty">
+            Loading outside gifts…
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =======================================================
+           RECIPES PANEL
+      ======================================================== -->
+
+      <section
+        id="recipesPanel"
+        class="panel"
+        data-admin-panel="recipes"
+        hidden
+      >
+
+
+       <div class="panel-heading">
+
+  <div>
+
+    <p class="eyebrow">
+      OUR RECIPE BOOK
+    </p>
+
+    <h2>
+      Recipe submissions
+    </h2>
+
+    <p class="panel-intro">
+      Review the recipes your guests have shared for your future recipe book.
+    </p>
+
+  </div>
+
+
+  <button
+    type="button"
+    class="btn primary"
+    id="exportRecipeBookButton"
+  >
+    Export Recipe Book
+  </button>
+
+</div>
+
+
+
+        <div class="admin-toolbar">
+
+          <input
+            id="recipeSearch"
+            type="search"
+            placeholder="Search guest, recipe or category…"
+          >
+
+
+          <select id="recipeFilter">
+
+            <option value="all">
+              All recipes
+            </option>
+
+            <option value="new">
+              New
+            </option>
+
+            <option value="reviewed">
+              Reviewed
+            </option>
+
+            <option value="favourite">
+              Favourites
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <div
+          id="recipeList"
+          class="recipe-admin-list"
+        >
+
+          <div class="empty">
+            Loading recipe submissions…
+          </div>
+
+        </div>
+
+      </section>
+
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =========================================================
+       GIFT EDITOR
+  ========================================================== -->
+
+  <dialog
+    id="giftEditor"
+    class="editor-dialog"
+  >
+
+
+    <button
+      class="dialog-close"
+      id="closeGiftEditor"
+      aria-label="Close"
+      type="button"
+    >
+      ×
+    </button>
+
+
+
+    <form
+      id="giftForm"
+      class="gift-form"
+    >
+
+
+      <input
+        type="hidden"
+        name="id"
+        id="giftId"
+      >
+
+
+
+      <!-- =======================================================
+           HEADING
+      ======================================================== -->
+
+      <div class="dialog-heading">
+
+        <p class="eyebrow">
+          REGISTRY ITEM
+        </p>
+
+        <h2 id="giftFormTitle">
+          Add gift
+        </h2>
+
+      </div>
+
+
+
+      <!-- =======================================================
+           GIFT TYPE
+      ======================================================== -->
+
+      <fieldset class="gift-type-field wide">
+
+        <legend>
+          Gift type
+        </legend>
+
+
+        <label class="gift-type-option">
+
+          <input
+            type="radio"
+            name="gift_type"
+            value="specific"
+            checked
+          >
+
+          <span class="gift-type-copy">
+
+            <strong>
+              Specific Pick
+            </strong>
+
+            <small>
+              Use this when you want the exact product, brand, colour, size or model.
+            </small>
+
+          </span>
+
+        </label>
+
+
+
+        <label class="gift-type-option">
+
+          <input
+            type="radio"
+            name="gift_type"
+            value="open_choice"
+          >
+
+          <span class="gift-type-copy">
+
+            <strong>
+              Gift Idea / Surprise Me
+            </strong>
+
+            <small>
+              Use this when guests can choose the exact item themselves within your style guidelines.
+            </small>
+
+          </span>
+
+        </label>
+
+      </fieldset>
+
+
+
+      <!-- Existing Supabase boolean -->
+
+      <input
+        type="hidden"
+        name="open_choice"
+        id="openChoiceField"
+        value="false"
+      >
+
+
+
+      <!-- =======================================================
+           FORM
+      ======================================================== -->
+
+      <div class="form-grid">
+
+
+        <label class="wide">
+
+          Gift name
+
+          <input
+            name="name"
+            required
+          >
+
+        </label>
+
+
+
+        <label>
+
+          Category
+
+          <input
+            name="category"
+            list="categoryOptions"
+            required
+          >
+
+        </label>
+
+
+
+        <datalist id="categoryOptions">
+
+          <option value="Kitchen">
+
+          <option value="Dining">
+
+          <option value="Bedroom & Bath">
+
+          <option value="Entertaining">
+
+          <option value="Home">
+
+          <option value="Baking">
+
+          <option value="Bar & Hosting">
+
+          <option value="Experiences">
+
+        </datalist>
+
+
+
+        <label>
+
+          Brand
+
+          <input
+            name="brand"
+            placeholder="e.g. Le Creuset"
+          >
+
+        </label>
+
+
+
+        <label>
+
+          Price (R)
+
+          <input
+            name="price"
+            type="number"
+            min="0"
+            step="0.01"
+          >
+
+        </label>
+
+
+
+        <label>
+
+          Quantity wanted
+
+          <input
+            name="quantity_wanted"
+            type="number"
+            min="1"
+            step="1"
+            value="1"
+            required
+          >
+
+        </label>
+
+
+
+        <label>
+
+          Display order
+
+          <input
+            name="display_order"
+            type="number"
+            step="1"
+            value="100"
+          >
+
+        </label>
+
+
+
+        <label class="wide">
+
+          Store / product link
+
+          <input
+            name="store_url"
+            type="url"
+            placeholder="https://..."
+          >
+
+        </label>
+
+
+
+        <label class="wide">
+
+          Description / guidance
+
+          <textarea
+            name="description"
+            rows="4"
+            placeholder="Tell guests what you love about this item or what style to look for."
+          ></textarea>
+
+        </label>
+
+
+
+        <!-- =====================================================
+             IMAGE
+        ====================================================== -->
+
+        <div class="wide image-field">
+
+          <label>
+
+            Gift image
+
+            <input
+              id="giftImageFile"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/avif"
+            >
+
+          </label>
+
+
+          <span>
+            or
+          </span>
+
+
+          <label>
+
+            Image URL
+
+            <input
+              name="image_url"
+              type="url"
+              placeholder="https://..."
+            >
+
+          </label>
+
+
+          <p class="help">
+            Upload a JPG, PNG, WEBP or AVIF up to 5 MB, or paste an existing image URL.
+          </p>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             SETTINGS
+        ====================================================== -->
+
+        <label class="check">
+
+          <input
+            name="featured"
+            type="checkbox"
+          >
+
+          One of our favourites
+
+        </label>
+
+
+
+        <label class="check">
+
+          <input
+            name="is_visible"
+            type="checkbox"
+            checked
+          >
+
+          Visible to guests
+
+        </label>
+
+
+      </div>
+
+
+
+      <!-- =======================================================
+           ACTIONS
+      ======================================================== -->
+
+      <div class="dialog-actions">
+
+
+        <button
+          class="btn ghost"
+          type="button"
+          id="cancelGiftEditor"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          class="btn primary"
+          type="submit"
+          id="saveGiftButton"
+        >
+          Save gift
+        </button>
+
+
+      </div>
+
+
+      <p
+        class="form-status"
+        id="giftFormStatus"
+        role="status"
+      ></p>
+
+
+    </form>
+
+  </dialog>
+
+
+
+  <!-- =========================================================
+       OUTSIDE GIFT DETAIL DIALOG
+  ========================================================== -->
+
+  <dialog
+    id="otherGiftDialog"
+    class="editor-dialog admin-detail-dialog"
+  >
+
+    <button
+      class="dialog-close"
+      id="closeOtherGiftDialog"
+      type="button"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+
+    <div class="dialog-heading">
+
+      <p class="eyebrow">
+        OUTSIDE GIFT
+      </p>
+
+      <h2 id="otherGiftDialogTitle">
+        Gift submission
+      </h2>
+
+    </div>
+
+
+    <div
+      id="otherGiftDialogContent"
+      class="admin-detail-content"
+    ></div>
+
+
+    <div class="dialog-actions">
+
+      <button
+        type="button"
+        class="btn danger"
+        id="rejectOtherGiftButton"
+      >
+        Reject
+      </button>
+
+      <button
+        type="button"
+        class="btn primary"
+        id="approveOtherGiftButton"
+      >
+        Approve
+      </button>
+
+    </div>
+
+  </dialog>
+
+
+
+  <!-- =========================================================
+       RECIPE DETAIL DIALOG
+  ========================================================== -->
+
+  <dialog
+    id="recipeAdminDialog"
+    class="editor-dialog recipe-admin-dialog"
+  >
+
+    <button
+      class="dialog-close"
+      id="closeRecipeAdminDialog"
+      type="button"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+
+    <div class="dialog-heading">
+
+      <p class="eyebrow">
+        RECIPE SUBMISSION
+      </p>
+
+      <h2 id="recipeAdminDialogTitle">
+        Recipe
+      </h2>
+
+    </div>
+
+
+    <div
+      id="recipeAdminDialogContent"
+      class="admin-detail-content"
+    ></div>
+
+
+    <div class="dialog-actions">
+
+      <button
+        type="button"
+        class="btn ghost"
+        id="markRecipeReviewedButton"
+      >
+        Mark reviewed
+      </button>
+
+      <button
+        type="button"
+        class="btn primary"
+        id="favouriteRecipeButton"
+      >
+        ♡ Favourite
+      </button>
+
+    </div>
+
+  </dialog>
+
+
+
+  <!-- =========================================================
+       SCRIPTS
+  ========================================================== -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <script src="admin.js"></script>
+
+
+</body>
+
+</html>
