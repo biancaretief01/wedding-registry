@@ -6055,3 +6055,11 @@ html {
 .gift-dialog-reserve:disabled {
   display: none;
 }
+
+/* Clearer text and more balanced paragraph wrapping */
+.intro-copy,
+.intro-copy.intro-copy-secondary {
+  color: #514b45;
+  opacity: 1;
+  text-wrap: pretty;
+}
