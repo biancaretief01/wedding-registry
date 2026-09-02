@@ -5994,3 +5994,64 @@ html {
   }
 
 }
+
+/* Keep fully gifted items visible */
+.gift-card.unavailable {
+  display: flex;
+  flex-direction: column;
+  visibility: visible;
+  opacity: 1;
+}
+
+.gift-card.unavailable .gift-image-wrap {
+  width: 100%;
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+}
+
+/* Image area contains the overlay */
+.gift-card.unavailable .gift-image-wrap {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Soft, muted product image */
+.gift-card.unavailable .gift-image {
+  filter: grayscale(35%);
+  opacity: 0.55;
+}
+
+/* Full-image Gifted overlay */
+.gift-card.unavailable .gift-image-wrap::after {
+  content: "GIFTED";
+  position: absolute;
+  inset: auto 16px 16px auto;
+  z-index: 2;
+  display: inline-block;
+  padding: 10px 16px;
+  background: rgba(250, 248, 245, 0.94);
+  border: 1px solid rgba(81, 71, 63, 0.2);
+  color: #51473f;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  pointer-events: none;
+}
+
+/* Hide the old badge to avoid duplicate labels */
+.gift-card.unavailable .gift-status-badge {
+  display: none;
+}
+
+/* No gifting button on fully gifted cards */
+.gift-card.unavailable .reserve-gift-button {
+  display: none;
+}
+
+/* No gifting button in fully gifted item popups */
+.gift-dialog-reserve:disabled {
+  display: none;
+}

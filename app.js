@@ -342,50 +342,34 @@ function isGiftAvailable(gift) {
 
 }
 
-
 function giftAvailabilityLabel(gift) {
+  const available = getAvailableQuantity(gift);
+  const wanted = getGiftQuantity(gift);
+  const gifted =
+    getReservedQuantity(gift) +
+    getPurchasedQuantity(gift);
 
-  const available =
-    getAvailableQuantity(gift);
-
-  const wanted =
-    getGiftQuantity(gift);
-
-  if (
-    available < 1
-  ) {
-
-    return (
-      getPurchasedQuantity(gift) >=
-      wanted
-    )
-      ? "Gifted"
-      : "Reserved";
-
+  if (available < 1) {
+    return "Gifted";
   }
 
-  return wanted > 1
-    ? `${available} of ${wanted} available`
-    : "Available";
+  if (wanted > 1) {
+    return `${gifted} gifted · ${available} available`;
+  }
 
+  return "Available";
 }
 
-
 function reserveLabel(gift) {
-
-  if (
-    !isGiftAvailable(gift)
-  ) {
-
-    return "Unavailable";
-
+  if (!isGiftAvailable(gift)) {
+    return "Gifted";
   }
 
   return isOpenChoice(gift)
-    ? "Reserve one"
-    : "Reserve this gift";
-
+    ? "Gift one"
+    : "Gift this item";
 }
+
 
 
 function getProductLink(gift) {
@@ -1060,7 +1044,7 @@ function createGiftCard(gift) {
             >
               ${
                 available
-                  ? "Reserve"
+                  ? "Gift this item"
                   : giftAvailabilityLabel(
                       gift
                     )
@@ -1721,7 +1705,7 @@ function openReserveDialog(gift) {
 
     reserveDialogTitle.textContent =
       gift.name ||
-      "Reserve this gift";
+      "Gift this item";
 
   }
 
@@ -1730,10 +1714,13 @@ function openReserveDialog(gift) {
     reserveDialogText
   ) {
 
-    reserveDialogText.textContent =
-      availableQuantity > 1
-        ? `There are ${availableQuantity} still available.`
-        : "This gift is still available.";
+reserveDialogText.textContent =
+  "Confirming means you’re choosing to give this gift. " +
+  "It will appear as gifted to other guests to prevent duplicates. " +
+  "No purchase or payment is made on this website. " +
+  (availableQuantity > 1
+    ? `There are ${availableQuantity} still available.`
+    : "One is still available.");
 
   }
 
@@ -2119,8 +2106,8 @@ reserveForm
         reserveStatus.textContent =
           status ===
           "purchased"
-            ? "Thank you ♡ Your gift has been marked as purchased."
-            : "Thank you ♡ Your gift has been reserved.";
+            ? "Thank you ♡ Your gift has been marked as gifted."
+            : "Thank you ♡ Your gift has been marked as gifted.";
 
       }
 
@@ -2618,41 +2605,16 @@ async function loadAlreadyGifted() {
     `;
 
 
-  const registryItems =
-    gifts
-
-      .filter(
-        gift =>
-          getPurchasedQuantity(
-            gift
-          ) >
-          0
-      )
-
-      .map(
-        gift =>
-          ({
-            source:
-              "registry",
-
-            name:
-              String(
-                gift.name ||
-                "Registry gift"
-              ),
-
-            brand:
-              displayBrand(
-                gift
-              ),
-
-            quantity:
-              getPurchasedQuantity(
-                gift
-              )
-          })
-      );
-
+const registryItems = gifts
+  .map(gift => ({
+    source: "registry",
+    name: String(gift.name || "Registry gift"),
+    brand: displayBrand(gift),
+    quantity:
+      getReservedQuantity(gift) +
+      getPurchasedQuantity(gift)
+  }))
+  .filter(item => item.quantity > 0);
 
   let otherItems =
     [];
