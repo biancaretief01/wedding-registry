@@ -686,35 +686,15 @@ function renderStats() {
 
   }
 
-
-  if (els.statReserved) {
-
-    els.statReserved.textContent =
-      gifts.reduce(
-        (sum, gift) =>
-          sum +
-          Number(
-            gift.quantity_reserved || 0
-          ),
-        0
-      );
-
-  }
-
-
   if (els.statGifted) {
-
-    els.statGifted.textContent =
-      gifts.reduce(
-        (sum, gift) =>
-          sum +
-          Number(
-            gift.quantity_purchased || 0
-          ),
-        0
-      );
-
-  }
+  els.statGifted.textContent = gifts.reduce(
+    (sum, gift) =>
+      sum +
+      Number(gift.quantity_reserved || 0) +
+      Number(gift.quantity_purchased || 0),
+    0
+  );
+}
 
 
   const pendingOther =
@@ -902,11 +882,11 @@ function giftRow(gift) {
           Wanted
           ${gift.quantity_wanted || 1}
 
-          · Reserved
-          ${gift.quantity_reserved || 0}
-
-          · Gifted
-          ${gift.quantity_purchased || 0}
+          · Gifted / claimed
+          ${
+            Number(gift.quantity_reserved || 0) +
+            Number(gift.quantity_purchased || 0)
+          }
 
         </div>
 
@@ -1191,7 +1171,20 @@ function reservationRow(
       <div>
 
         <span class="pill">
-          ${escapeHtml(status)}
+ 
+        ${escapeHtml(
+ 
+          status === "reserved"
+ 
+          ? "Gifted / claimed"
+           : status === "purchased"
+            ? "Purchase confirmed"
+            : status === "released"
+             ? "Released / cancelled"
+             : status
+ 
+        )}
+
         </span>
 
       </div>
@@ -1211,7 +1204,7 @@ function reservationRow(
                   data-status="reserved"
                   type="button"
                 >
-                  Reserved
+                  Mark as claimed
                 </button>
               `
 
@@ -1229,7 +1222,7 @@ function reservationRow(
                   data-status="purchased"
                   type="button"
                 >
-                  Gifted
+                  Confirm purchased
                 </button>
               `
 
@@ -1247,7 +1240,7 @@ function reservationRow(
                   data-status="released"
                   type="button"
                 >
-                  Release
+                  Release claim
                 </button>
               `
 
@@ -1330,7 +1323,7 @@ function renderReservations() {
 
       : `
           <div class="empty">
-            No reservations match this view.
+            No gift claims match this view.
           </div>
         `;
 
@@ -2243,8 +2236,8 @@ function renderRecentActivity() {
         status === "purchased"
           ? "Gift purchased"
           : status === "released"
-            ? "Reservation released"
-            : "Gift reserved",
+            ? "Gift claim released"
+            : "Gift claimed",
 
       tone:
         status === "purchased"
@@ -2879,7 +2872,7 @@ els.giftForm?.addEventListener(
         ) {
 
           throw new Error(
-            `Quantity wanted cannot be lower than ${claimed}, because that many are already reserved or gifted.`
+            `Quantity wanted cannot be lower than ${claimed}, because that because that many are already claimed or purchased.many are already reserved or gifted.`
           );
 
         }
@@ -3084,16 +3077,13 @@ async function changeReservation(
 ) {
 
   const wording =
-
-    status === "released"
-
-      ? "release this reservation"
-
-      : status === "purchased"
-
-        ? "mark this as gifted"
-
-        : "mark this as reserved";
+  
+  status === "released"
+  
+    ? "release this claim and make its quantity available again"
+    : status === "purchased"
+      ? "confirm that this gift has been purchased"
+      : "mark this gift as claimed, without confirming purchase";
 
 
   const confirmed =

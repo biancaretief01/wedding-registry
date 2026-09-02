@@ -47,7 +47,7 @@
 
   <link
     rel="stylesheet"
-    href="admin.css"
+    href="admin.css?v=20260902-1"
   >
 
 </head>
@@ -230,7 +230,7 @@
           data-tab="reservations"
           type="button"
         >
-          Reservations
+          Gift claims
         </button>
 
 
@@ -295,61 +295,35 @@
         <section
           class="stats-grid"
           aria-label="Registry overview"
-        >
+       >
+  
+       <article>
+  
+        <span>Total gift listings</span>
+  
+        <strong id="statTotal">—</strong>
+  
+      </article>
 
-          <article>
+  
+      <article>
+  
+        <span>Available units</span>
+  
+        <strong id="statAvailable">—</strong>
+  
+      </article>
 
-            <span>
-              Total gifts
-            </span>
+  
+      <article>
+  
+        <span>Gifted / claimed units</span>
+  
+        <strong id="statGifted">—</strong>
+  
+      </article>
 
-            <strong id="statTotal">
-              —
-            </strong>
-
-          </article>
-
-
-          <article>
-
-            <span>
-              Available units
-            </span>
-
-            <strong id="statAvailable">
-              —
-            </strong>
-
-          </article>
-
-
-          <article>
-
-            <span>
-              Reserved units
-            </span>
-
-            <strong id="statReserved">
-              —
-            </strong>
-
-          </article>
-
-
-          <article>
-
-            <span>
-              Gifted units
-            </span>
-
-            <strong id="statGifted">
-              —
-            </strong>
-
-          </article>
-
-        </section>
-
+    </section>
 
 
         <!-- =====================================================
@@ -574,11 +548,13 @@
             </p>
 
             <h2>
-              Reservations
+              Gift Claims
             </h2>
 
             <p class="panel-intro">
-              Review registry gifts that guests have reserved or purchased.
+              Review gifts chosen by guests. Both claimed and purchase-confirmed
+              gifts appear as gifted publicly. Release a claim to make its
+              quantity available again.
             </p>
 
           </div>
@@ -601,22 +577,14 @@
 
 
           <select id="reservationFilter">
-
-            <option value="all">
-              All reservations
-            </option>
-
-            <option value="reserved">
-              Reserved
-            </option>
-
-            <option value="purchased">
-              Gifted
-            </option>
-
-            <option value="released">
-              Released
-            </option>
+ 
+            <option value="all">All gift claims</option>
+            
+            <option value="reserved">Claimed — purchase unconfirmed</option>
+            
+            <option value="purchased">Purchase confirmed</option>
+ 
+            <option value="released">Released / cancelled</option>
 
           </select>
 
@@ -1332,7 +1300,7 @@
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
   ></script>
 
-  <script src="admin.js"></script>
+  <script src="admin.js?v=20260902-1"></script>
 
 
 </body>
